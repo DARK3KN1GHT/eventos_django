@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ evento.nome }}</title>
+</head>
+<body>
+
+  <h1>Evento: {{ evento.nome }}</h1>
+
+  <p><strong>Categoria:</strong> {{ evento.categoria }}</p>
+
+  {% if evento.local %}
+    <p><strong>Local:</strong> {{ evento.local }}</p>
+  {% endif %}
+
+  {% if evento.link %}
+    <p>
+      <strong>Link:</strong>
+      <a href="{{ evento.link }}" target="_blank" rel="noopener noreferrer">
+        {{ evento.link }}
+      </a>
+    </p>
+  {% endif %}
+
+</body>
+</html>
