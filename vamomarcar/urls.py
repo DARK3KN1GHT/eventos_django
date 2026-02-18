@@ -1,5 +1,5 @@
 """
-URL configuration for vamomarchar project.
+URL configuration for vamomarcar project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/6.0/topics/http/urls/
@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
 
-from agenda.views import index
+from agenda.views import listar_eventos
 from agenda.urls import urlpatterns as agenda_urls
 
 urlpatterns = [

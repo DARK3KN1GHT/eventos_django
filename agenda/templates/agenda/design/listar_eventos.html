@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listar eventos</title>
+</head>
+
+<body>
+
+  <h1>Lista de eventos</h1>
+
+  <table border="1" cellpadding="8">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Local</th>
+        <th>Link</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for e in eventos %}
+        <tr>
+          <td>{{ e.nome }}</td>
+
+          <td>
+            {% if e.categoria %}
+              {{ e.categoria.nome }}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+
+          <td>{{ e.local|default:"-" }}</td>
+
+          <td>
+            {% if e.link %}
+              <a href="{{ e.link }}" target="_blank" rel="noopener noreferrer">Abrir</a>
+            {% else %}
+              -
+            {% endif %}
+          </td>
+
+          <td>
+            <a href="{% url 'exibir_evento' e.id %}">Ver detalhes</a>
+          </td>
+        </tr>
+
+      {% empty %}
+        <tr>
+          <td colspan="5">Nenhum evento cadastrado.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</body>
+</html>
