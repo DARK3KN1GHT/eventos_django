@@ -15,13 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.urls.conf import include
-
-from agenda.views import listar_eventos
-from agenda.urls import urlpatterns as agenda_urls
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include(agenda_urls)), 
+    path('', include('agenda.urls')), 
 ]

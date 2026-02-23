@@ -17,6 +17,8 @@
         <th>Categoria</th>
         <th>Local</th>
         <th>Link</th>
+        <th>Data</th>
+        <th>Hora</th>
         <th>Ações</th>
       </tr>
     </thead>
@@ -45,13 +47,29 @@
           </td>
 
           <td>
+              {% if e.data %}
+                  {{ e.data|date:"D d/m/Y" }}
+              {% else %}
+                  -
+              {% endif %}
+          </td>
+
+          <td>
+              {% if e.hora %}
+                  {{ e.hora|time:"H:i" }}
+              {% else %}
+                  -
+              {% endif %}
+          </td>
+
+          <td>
             <a href="{% url 'exibir_evento' e.id %}">Ver detalhes</a>
           </td>
-        </tr>
+        <tr>
 
       {% empty %}
         <tr>
-          <td colspan="5">Nenhum evento cadastrado.</td>
+          <td colspan="7">Nenhum evento cadastrado.</td>
         </tr>
       {% endfor %}
     </tbody>

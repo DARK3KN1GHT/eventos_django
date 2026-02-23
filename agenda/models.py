@@ -15,6 +15,8 @@ class Evento(models.Model):
     data = models.DateField(blank=True, null=True)
     hora = models.TimeField(blank=True, null=True)
 
+    quantidade_participantes = models.PositiveIntegerField(default=0)
+    
     categoria = models.ForeignKey(
         Categoria,
         null=True,
