@@ -1,79 +1,122 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Listar eventos</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Listagem de eventos</title>
+
+  <style>
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background:#f6f7fb;
+      margin:0;
+      padding:24px;
+      color:#1f2937;
+    }
+    .container{
+      max-width: 900px;
+      margin: 0 auto;
+      background:#fff;
+      padding:24px;
+      border-radius:12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    }
+    h1{
+      margin:0 0 16px;
+      font-size:28px;
+    }
+    table{
+      width:100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size:14px;
+    }
+    th, td{
+      padding: 12px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align:left;
+      vertical-align: top;
+    }
+    th{
+      background:#f9fafb;
+      font-weight:700;
+    }
+    a{
+      color:#2563eb;
+      text-decoration:none;
+    }
+    a:hover{
+      text-decoration:underline;
+    }
+    .badge{
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:999px;
+      background:#eef2ff;
+      color:#3730a3;
+      font-size:12px;
+    }
+    .muted{ color:#6b7280; }
+  </style>
 </head>
 
 <body>
+  <div class="container">
+    <h1>Listagem de eventos</h1>
 
-  <h1>Lista de eventos</h1>
-
-  <table border="1" cellpadding="8">
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Categoria</th>
-        <th>Local</th>
-        <th>Link</th>
-        <th>Data</th>
-        <th>Hora</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {% for e in eventos %}
+    <table>
+      <thead>
         <tr>
-          <td>{{ e.nome }}</td>
-
-          <td>
-            {% if e.categoria %}
-              {{ e.categoria.nome }}
-            {% else %}
-              -
-            {% endif %}
-          </td>
-
-          <td>{{ e.local|default:"-" }}</td>
-
-          <td>
-            {% if e.link %}
-              <a href="{{ e.link }}" target="_blank" rel="noopener noreferrer">Abrir</a>
-            {% else %}
-              -
-            {% endif %}
-          </td>
-
-          <td>
-              {% if e.data %}
-                  {{ e.data|date:"D d/m/Y" }}
-              {% else %}
-                  -
-              {% endif %}
-          </td>
-
-          <td>
-              {% if e.hora %}
-                  {{ e.hora|time:"H:i" }}
-              {% else %}
-                  -
-              {% endif %}
-          </td>
-
-          <td>
-            <a href="{% url 'exibir_evento' e.id %}">Ver detalhes</a>
-          </td>
-        <tr>
-
-      {% empty %}
-        <tr>
-          <td colspan="7">Nenhum evento cadastrado.</td>
+          <th>Nome</th>
+          <th>Categoria</th>
+          <th>Local ou Link</th>
+          <th>Data</th>
+          <th></th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
 
+      <tbody>
+        {% for e in eventos %}
+          <tr>
+            <td>{{ e.nome }}</td>
+
+            <td>
+              {% if e.categoria %}
+                <span class="badge">{{ e.categoria.nome }}</span>
+              {% else %}
+                <span class="muted">Sem categoria</span>
+              {% endif %}
+            </td>
+
+            <td>
+              {% if e.local %}
+                {{ e.local }}
+              {% elif e.link %}
+                <a href="{{ e.link }}" target="_blank" rel="noopener">Acessar</a>
+              {% else %}
+                <span class="muted">—</span>
+              {% endif %}
+            </td>
+
+            <td>
+              {% if e.data %}
+                {{ e.data|date:"d \\d\\e F \\d\\e Y" }}
+              {% else %}
+                <span class="muted">A definir</span>
+              {% endif %}
+            </td>
+
+            <td>
+              <a href="{% url 'exibir_evento' e.id %}">Ver detalhes</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5" class="muted">Nenhum evento encontrado.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

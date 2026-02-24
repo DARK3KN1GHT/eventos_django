@@ -1,74 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ evento.nome }}</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ evento.nome }}</title>
+
+  <style>
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background:#f6f7fb;
+      margin:0;
+      padding:24px;
+      color:#1f2937;
+    }
+    .container{
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .topbar{
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .topbar a{
+      color:#2563eb;
+      text-decoration:none;
+      font-weight:600;
+    }
+    .topbar a:hover{ text-decoration:underline; }
+
+    .card{
+      background:#fff;
+      border-radius:14px;
+      padding:24px;
+      box-shadow: 0 8px 22px rgba(0,0,0,.08);
+    }
+
+    h1{
+      margin:0 0 6px;
+      font-size:28px;
+      line-height: 1.2;
+    }
+
+    .subtitle{
+      color:#6b7280;
+      margin-bottom: 18px;
+      font-size:14px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 14px 0 18px;
+    }
+
+    .info{
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #fafafa;
+    }
+
+    .label{
+      font-size: 12px;
+      color:#6b7280;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .value{
+      font-size: 15px;
+      font-weight: 600;
+      color:#111827;
+      word-break: break-word;
+    }
+
+    .badge{
+      display:inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background:#eef2ff;
+      color:#3730a3;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn{
+      border: 0;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .btn-primary{
+      background:#2563eb;
+      color:#fff;
+    }
+    .btn-primary:hover{ filter: brightness(.95); }
+
+    .btn-ghost{
+      background:#f3f4f6;
+      color:#111827;
+    }
+    .btn-ghost:hover{ filter: brightness(.97); }
+
+    .muted{ color:#6b7280; font-weight: 500; }
+
+    .divider{
+      height:1px;
+      background:#e5e7eb;
+      margin: 16px 0;
+    }
+
+    .count{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+    }
+    .count strong{ font-size: 18px; }
+
+    @media (max-width: 720px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="container">
+    <div class="topbar">
+      <a href="{% url 'listar_eventos' %}">← Voltar para lista</a>
+    </div>
 
-    <h1>Evento: {{ evento.nome }}</h1>
-
-    <p>
-        <strong>Categoria:</strong>
+    <div class="card">
+      <h1>{{ evento.nome }}</h1>
+      <div class="subtitle">
         {% if evento.categoria %}
-            {{ evento.categoria.nome }}
+          <span class="badge">{{ evento.categoria.nome }}</span>
         {% else %}
-            -
+          <span class="muted">Sem categoria</span>
         {% endif %}
-    </p>
+      </div>
 
-    <p>
-        <strong>Local:</strong>
-        {{ evento.local|default:"-" }}
-    </p>
+      <div class="grid">
+        <div class="info">
+          <div class="label">Local</div>
+          <div class="value">
+            {% if evento.local %}
+              {{ evento.local }}
+            {% else %}
+              <span class="muted">—</span>
+            {% endif %}
+          </div>
+        </div>
 
-    {% if evento.link %}
-        <p>
-            <strong>Link:</strong>
-            <a href="{{ evento.link }}" target="_blank" rel="noopener noreferrer">
-                {{ evento.link }}
-            </a>
-        </p>
-    {% endif %}
+        <div class="info">
+          <div class="label">Link</div>
+          <div class="value">
+            {% if evento.link %}
+              <a href="{{ evento.link }}" target="_blank" rel="noopener">Acessar</a>
+            {% else %}
+              <span class="muted">—</span>
+            {% endif %}
+          </div>
+        </div>
 
-    <p>
-        <strong>Data:</strong>
-        {% if evento.data %}
-            {{ evento.data|date:"D d/m/Y" }}
-        {% else %}
-            a definir
-        {% endif %}
-    </p>
+        <div class="info">
+          <div class="label">Data</div>
+          <div class="value">
+            {% if evento.data %}
+              {{ evento.data|date:"d/m/Y" }}
+            {% else %}
+              <span class="muted">A definir</span>
+            {% endif %}
+          </div>
+        </div>
 
-    <p>
-        <strong>Hora:</strong>
-        {% if evento.hora %}
-            {{ evento.hora|time:"H:i" }}
-        {% else %}
-            -
-        {% endif %}
-    </p>
+        <div class="info">
+          <div class="label">Hora</div>
+          <div class="value">
+            {% if evento.hora %}
+              {{ evento.hora|time:"H:i" }}
+            {% else %}
+              <span class="muted">A definir</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
 
-    <hr>
+      <div class="divider"></div>
 
-    <p>
-        <strong>Quantidade de participantes:</strong>
-        {{ evento.quantidade_participantes }}
-    </p>
+      <div class="count">
+        <div>
+          <div class="label">Participantes</div>
+          <div class="value"><strong>{{ evento.quantidade_participantes }}</strong></div>
+        </div>
 
-    <form method="post" action="{% url 'participar_evento' evento.id %}">
-        {% csrf_token %}
-        <button type="submit">Participar</button>
-    </form>
+        <div class="actions">
+          <a class="btn btn-primary" href="{% url 'participar_evento' evento.id %}">
+            Participar
+          </a>
+          <a class="btn btn-ghost" href="{% url 'listar_eventos' %}">
+            Voltar
+          </a>
+        </div>
+      </div>
 
-    <br>
-
-    <p>
-        <a href="{% url 'listar_eventos' %}">
-            ← Voltar para lista
-        </a>
-    </p>
-
+    </div>
+  </div>
 </body>
 </html>
